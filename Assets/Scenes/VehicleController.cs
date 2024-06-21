@@ -16,9 +16,27 @@ public class VehicleController : MonoBehaviour
     private float currentBrakeDelay = 0f;
     private bool isBraking = false;
 
+
+    [Header("Datas")]
+    public float motor = 0;
+    public float steering = 0;
+
+    // Ángulo de inclinación general del vehículo
+    private float vehicleTiltAngleX = 0f;
+    private float vehicleTiltAngleY = 0f;
+    private float vehicleTiltAngleZ = 0f;
+
+    public float VehicleTiltAngleX => vehicleTiltAngleX;
+    public float VehicleTiltAngleY => vehicleTiltAngleY;
+    public float VehicleTiltAngleZ => vehicleTiltAngleZ;
+
+    private Quaternion initialRotation;
+    public Vector3 initialRotations;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        initialRotation = transform.rotation;
+        
     }
 
     private void Update()
@@ -34,13 +52,15 @@ public class VehicleController : MonoBehaviour
             isBraking = false;
             currentBrakeDelay = 0f;
         }
+        initialRotations = new Vector3(transform.rotation.x, transform.rotation.y, transform.rotation.z);
+        Debug.Log(initialRotations);
     }
 
     private void FixedUpdate()
     {
-        float motor = maxMotorTorque * Input.GetAxis("Vertical");
-        float steering = maxSteeringAngle * Input.GetAxis("Horizontal");
-
+         motor = maxMotorTorque * Input.GetAxis("Vertical");
+         steering = maxSteeringAngle * Input.GetAxis("Horizontal");
+        
         // Aplicar el motor y el giro a las ruedas delanteras
         foreach (WheelCollider wheel in frontWheelColliders)
         {
@@ -107,4 +127,5 @@ public class VehicleController : MonoBehaviour
             wheelMeshes[i].rotation = rot;
         }
     }
+
 }
