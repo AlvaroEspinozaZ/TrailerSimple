@@ -30,12 +30,10 @@ public class VehicleController : MonoBehaviour
     public float VehicleTiltAngleY => vehicleTiltAngleY;
     public float VehicleTiltAngleZ => vehicleTiltAngleZ;
 
-    private Quaternion initialRotation;
     public Vector3 initialRotations;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        initialRotation = transform.rotation;
         
     }
 
@@ -52,12 +50,21 @@ public class VehicleController : MonoBehaviour
             isBraking = false;
             currentBrakeDelay = 0f;
         }
-        initialRotations = new Vector3(transform.rotation.x, transform.rotation.y, transform.rotation.z);
+        initialRotations = transform.eulerAngles;
+
+        vehicleTiltAngleX = initialRotations.x;
+        vehicleTiltAngleY = initialRotations.y;
+        vehicleTiltAngleZ = initialRotations.z;
+        //Debug.Log(vehicleTiltAngleX);
+        //Debug.Log(vehicleTiltAngleY);
+        //Debug.Log(vehicleTiltAngleZ);
         Debug.Log(initialRotations);
     }
 
     private void FixedUpdate()
     {
+        
+
          motor = maxMotorTorque * Input.GetAxis("Vertical");
          steering = maxSteeringAngle * Input.GetAxis("Horizontal");
         
