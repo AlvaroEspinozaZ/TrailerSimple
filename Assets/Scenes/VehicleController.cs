@@ -32,6 +32,86 @@ public class VehicleController : MonoBehaviour
 
     private Quaternion initialRotation;
     public Vector3 initialRotations;
+
+
+    public float NormalizedRotationX
+    {
+        get
+        {
+            float minAngleX = -20f;  // Ángulo mínimo en X
+            float maxAngleX = 20f;   // Ángulo máximo en X
+            float currentAngleX = transform.rotation.eulerAngles.x;  // Ángulo actual en X
+
+            // Ajustar el ángulo actual para que esté dentro del rango de -20 a 20 grados
+            if (currentAngleX > 180f)
+            {
+                currentAngleX -= 360f;
+            }
+
+            currentAngleX = Mathf.Clamp(currentAngleX, minAngleX, maxAngleX);
+
+            // Calcular el valor normalizado inverso dentro del rango de -20 a 20 grados
+            float normalizedX = Mathf.InverseLerp(maxAngleX, minAngleX, currentAngleX);
+
+            return normalizedX;
+        }
+    }
+
+    public float NormalizedRotationY
+    {
+        get
+        {
+            float normalizedY = NormalizeAngle(transform.rotation.eulerAngles.y) / 360f;
+            return Mathf.Clamp01(normalizedY);
+        }
+    }
+
+    public float NormalizedRotationZ
+    {
+        get
+        {
+            float minAngleZ = -20f;  // Ángulo mínimo en Z
+            float maxAngleZ = 20f;   // Ángulo máximo en Z
+            float currentAngleZ = transform.rotation.eulerAngles.z;  // Ángulo actual en Z
+
+            // Ajustar el ángulo actual para que esté dentro del rango de -20 a 20 grados
+            if (currentAngleZ > 180f)
+            {
+                currentAngleZ -= 360f;
+            }
+
+            currentAngleZ = Mathf.Clamp(currentAngleZ, minAngleZ, maxAngleZ);
+
+            // Calcular el valor normalizado inverso dentro del rango de -20 a 20 grados
+            float normalizedZ = Mathf.InverseLerp(maxAngleZ, minAngleZ, currentAngleZ);
+
+            return normalizedZ;
+        }
+    }
+
+    private float NormalizeAngle(float angle)
+    {
+        angle = angle % 360; // Asegurar que el ángulo esté dentro de 0 a 359 grados
+        if (angle < 0)
+        {
+            angle += 360; // Convertir ángulos negativos a positivos
+        }
+        return angle;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -53,7 +133,11 @@ public class VehicleController : MonoBehaviour
             currentBrakeDelay = 0f;
         }
         initialRotations = new Vector3(transform.rotation.x, transform.rotation.y, transform.rotation.z);
-        Debug.Log(initialRotations);
+        float xRotationNormalized = GetComponent<VehicleController>().NormalizedRotationX;
+        float yRotationNormalized = GetComponent<VehicleController>().NormalizedRotationY;
+        float zRotationNormalized = GetComponent<VehicleController>().NormalizedRotationZ;
+
+        //Debug.Log($"Normalized Rotation - X: {xRotationNormalized}, Z: {zRotationNormalized}");
     }
 
     private void FixedUpdate()
