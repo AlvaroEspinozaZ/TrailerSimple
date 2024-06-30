@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -584,8 +584,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61a2a77c7f862f469fbad2fab21f354, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  platform: {fileID: 1468517706}
   port: 0
-  Data: {fileID: 0}
+  Data: {fileID: 695897347}
   active: 1
 --- !u!4 &512317443
 Transform:
@@ -712,16 +713,16 @@ RectTransform:
   m_GameObject: {fileID: 695897345}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.4229, y: 2.4229, z: 2.4229}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 297600314}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 25}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 638, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &695897347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -769,12 +770,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.75
+  m_fontSize: 136.25
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMin: 30
+  m_fontSizeMax: 150
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -805,7 +806,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: -102.26892, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1726,6 +1727,9 @@ MonoBehaviour:
   piernaMidle: {fileID: 1675492114}
   piernaRigth: {fileID: 1333933513}
   piernaLeft: {fileID: 817764903}
+  limitMidle: 0
+  limitTraseraIzquierda: 0
+  limitTraseraDerecha: 0
 --- !u!1 &1486862859
 GameObject:
   m_ObjectHideFlags: 0

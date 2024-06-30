@@ -24,10 +24,13 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Linq;
+using TMPro;
 
 public class UDPSendTest : MonoBehaviour
 {
- 
+
+    [SerializeField] private PlatFormController platform;
+
     IPEndPoint remoteEndPoint;
     UDPDATA mUDPDATA = new UDPDATA ();
 
@@ -35,7 +38,7 @@ public class UDPSendTest : MonoBehaviour
     private string IP;  // define in init
     public int port;  // define in init
 
-    public Text Data;
+    public TMP_Text Data;
   
     UdpClient client;
      
@@ -76,32 +79,36 @@ public class UDPSendTest : MonoBehaviour
     void FixedUpdate()
     {
 
-            //A = (int)sliderA.value  ;
-            //B = (int)sliderB.value  ;
-            //C = (int)sliderC.value ;
-            //Debug.Log("A " + A);
-            //string HexA = DecToHexMove (A);
-            //string HexB = DecToHexMove (B);
-            //string HexC = DecToHexMove (C);
+        A = (int)(MapToZeroToOne(platform.limitMidle) * 250);
+        B = (int)(MapToZeroToOne(platform.limitTraseraIzquierda) * 250);
+        C = (int)(MapToZeroToOne(platform.limitTraseraDerecha) * 250);
+        Debug.Log(MapToZeroToOne(platform.limitMidle) * 250);
+        Debug.Log(MapToZeroToOne(platform.limitTraseraIzquierda) * 250);
+        Debug.Log(MapToZeroToOne(platform.limitTraseraDerecha) * 250);
+        string HexA = DecToHexMove(A);
+        string HexB = DecToHexMove(B);
+        string HexC = DecToHexMove(C);
 
-            //engineAHex.text = "Engine A: " + HexA;
-            //engineBHex.text = "Engine B: " + HexB;
-            //engineCHex.text = "Engine C: " + HexC;
-            
-            //mUDPDATA.mAppDataField.PlayMotorC = HexC;
-            //mUDPDATA.mAppDataField.PlayMotorA = HexA;
-            //mUDPDATA.mAppDataField.PlayMotorB = HexB;
+ 
+
+        mUDPDATA.mAppDataField.PlayMotorC = HexC;
+        mUDPDATA.mAppDataField.PlayMotorA = HexA;
+        mUDPDATA.mAppDataField.PlayMotorB = HexB;
 
 
-            //engineA.text = ((int)sliderA.value).ToString ();
-            //engineB.text = ((int)sliderB.value).ToString ();
-            //engineC.text = ((int)sliderC.value).ToString ();
 
-            //Data.text = "Data: " + mUDPDATA.GetToString ();
+        Data.text = "Data: " + mUDPDATA.GetToString();
 
-            //sendString (mUDPDATA.GetToString ());
+        sendString(mUDPDATA.GetToString());
 
-         
+
+    }
+
+    float MapToZeroToOne(float value)
+    {
+        float clampedValue = Mathf.Clamp(value, 2f, 4f);
+
+        return (clampedValue - 2f) / (4f - 2f);
     }
     void OnApplicationQuit()
     {
