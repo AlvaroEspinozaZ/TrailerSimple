@@ -31,84 +31,58 @@ public class PlatFormController : MonoBehaviour
 
     private void CalibrateLegsPosition()
     {
-        float limitUp = Mathf.Clamp(piernaRigth.transform.position.y - Time.deltaTime, 2, 4);
-        float limitDown = Mathf.Clamp(piernaLeft.transform.position.y + Time.deltaTime, 2, 4);
-        float limitMidle = Mathf.Clamp(piernaMidle.transform.position.y + Time.deltaTime, 2, 4);
-        piernaMidle.transform.position = initialMidleLegPosition;
-        piernaRigth.transform.position = initialRightLegPosition;
-        piernaLeft.transform.position = initialLeftLegPosition;
+        piernaMidle.transform.localPosition = new Vector3(piernaMidle.transform.localPosition.x, 3f, piernaMidle.transform.localPosition.z);
+        piernaRigth.transform.localPosition = new Vector3(piernaRigth.transform.localPosition.x, 3f, piernaRigth.transform.localPosition.z);
+        piernaLeft.transform.localPosition = new Vector3(piernaLeft.transform.localPosition.x, 3f, piernaLeft.transform.localPosition.z);
     }
 
 
-    void porMovimiento()
-    {
-        if (vehicle.motor != 0)
-        {
-            if (vehicle.steering <= 0)
-            {
-                // Ajustar la posición de las piernas en función del ángulo de inclinación
-                float limitUp = Mathf.Clamp(piernaRigth.transform.position.y + Time.deltaTime, 2, 4);
-                float limitDown = Mathf.Clamp(piernaLeft.transform.position.y - Time.deltaTime, 2, 4);
-                Vector3 tmp = new Vector3(piernaRigth.transform.position.x, limitUp, piernaRigth.transform.position.z);
-                Vector3 tmp1 = new Vector3(piernaLeft.transform.position.x, limitDown, piernaLeft.transform.position.z);
-                piernaRigth.transform.position = tmp;
-                piernaLeft.transform.position = tmp1;
-            }
-            else if (vehicle.steering >= 0)
-            {
-                // Ajustar la posición de las piernas en función del ángulo de inclinación
-                float limitUp = Mathf.Clamp(piernaLeft.transform.position.y + Time.deltaTime, 2, 4);
-                float limitDown = Mathf.Clamp(piernaRigth.transform.position.y - Time.deltaTime, 2, 4);
-                Vector3 tmp = new Vector3(piernaLeft.transform.position.x, limitUp, piernaLeft.transform.position.z);
-                Vector3 tmp1 = new Vector3(piernaRigth.transform.position.x, limitDown, piernaRigth.transform.position.z);
-                piernaLeft.transform.position = tmp;
-                piernaRigth.transform.position = tmp1;
-            }
-        }
-    }
 
     void testing()
     {
-        //float vehicleTiltAngleX = vehicle.NormalizedRotationX;
-        ////Debug.Log(vehicle.NormalizedRotationX);
+        float vehicleTiltAngleX = vehicle.NormalizedRotationX;
+        Debug.Log(vehicleTiltAngleX);
 
-        //float limitMidle = Mathf.Clamp(vehicle.NormalizedRotationX * 4 + Time.deltaTime, 2f, 4f);
-        //Vector3 tmp = new Vector3(piernaMidle.transform.localPosition.x, limitMidle, piernaMidle.transform.localPosition.z);
-        //piernaMidle.transform.localPosition = tmp;
-
+        float limitMidle = Mathf.Clamp(3f + (vehicleTiltAngleX - 0.5f) * 4f, 2f, 4f);
+        Vector3 tmpMidle = new Vector3(piernaMidle.transform.localPosition.x, limitMidle, piernaMidle.transform.localPosition.z);
+        piernaMidle.transform.localPosition = tmpMidle;
 
         float vehicleTiltAngleZ = vehicle.NormalizedRotationZ;
-        Debug.Log(vehicle.NormalizedRotationZ);
 
 
-        float limiteLeft = Mathf.Clamp(vehicle.NormalizedRotationZ * 4 + Time.deltaTime, 2f, 4f);
-        Vector3 tmp1 = new Vector3(piernaLeft.transform.localPosition.x, limiteLeft, piernaLeft.transform.localPosition.z);
-        piernaLeft.transform.localPosition = tmp1;
+        if (vehicleTiltAngleZ > 0.5f)
+        {
+            
+            float limitTraseraIzquierda = Mathf.Clamp((vehicleTiltAngleZ - 0.5f) * 4 + 3f, 2f, 4f); 
+            float limitTraseraDerecha = Mathf.Clamp((0.5f - vehicleTiltAngleZ) * 4 + 3f, 2f, 4f); 
 
-        float limiteRight = Mathf.Clamp(vehicle.NormalizedRotationZ * 4 - Time.deltaTime, 2f, 4f);
-        Vector3 tmp2 = new Vector3(piernaRigth.transform.localPosition.x, limiteRight, piernaRigth.transform.localPosition.z);
-        piernaRigth.transform.localPosition = tmp2;
-        //if (vehicleTiltAngleZ > 0.5)
-        //{
-        //    float limiteLeft = Mathf.Clamp(vehicle.NormalizedRotationZ * 4 + Time.deltaTime, 2f, 4f);
-        //    Vector3 tmp1 = new Vector3(piernaLeft.transform.localPosition.x, limiteLeft, piernaLeft.transform.localPosition.z);
-        //    piernaLeft.transform.localPosition = tmp1;
+            Vector3 tmpIzquierda = new Vector3(piernaLeft.transform.localPosition.x, limitTraseraIzquierda, piernaLeft.transform.localPosition.z);
+            piernaLeft.transform.localPosition = tmpIzquierda;
 
-        //    float limiteRight = Mathf.Clamp(vehicle.NormalizedRotationZ * 4 - Time.deltaTime, 2f, 4f);
-        //    Vector3 tmp2 = new Vector3(piernaRigth.transform.localPosition.x, limiteRight, piernaRigth.transform.localPosition.z);
-        //    piernaRigth.transform.localPosition = tmp2;
-        //}
+            Vector3 tmpDerecha = new Vector3(piernaRigth.transform.localPosition.x, limitTraseraDerecha, piernaRigth.transform.localPosition.z);
+            piernaRigth.transform.localPosition = tmpDerecha;
+        }
+        else if (vehicleTiltAngleZ < 0.5f)
+        {
 
-        //else if (vehicleTiltAngleZ < 0.5)
-        //{
-        //    float limiteLeft = Mathf.Clamp(vehicle.NormalizedRotationZ * 4 - Time.deltaTime, 2f, 4f);
-        //    Vector3 tmp3 = new Vector3(piernaLeft.transform.localPosition.x, limiteLeft, piernaLeft.transform.localPosition.z);
-        //    piernaLeft.transform.localPosition = tmp3;
+            float limitTraseraIzquierda = Mathf.Clamp((vehicleTiltAngleZ - 0.5f) * 4 + 3f, 2f, 4f); 
+            float limitTraseraDerecha = Mathf.Clamp((0.5f - vehicleTiltAngleZ) * 4 + 3f, 2f, 4f); 
 
-        //    float limiteRight = Mathf.Clamp(vehicle.NormalizedRotationZ * 4 + Time.deltaTime, 2f, 4f);
-        //    Vector3 tmp4 = new Vector3(piernaRigth.transform.localPosition.x, limiteRight, piernaRigth.transform.localPosition.z);
-        //    piernaRigth.transform.localPosition = tmp4;
-        //}
+            Vector3 tmpIzquierda = new Vector3(piernaLeft.transform.localPosition.x, limitTraseraIzquierda, piernaLeft.transform.localPosition.z);
+            piernaLeft.transform.localPosition = tmpIzquierda;
+
+            Vector3 tmpDerecha = new Vector3(piernaRigth.transform.localPosition.x, limitTraseraDerecha, piernaRigth.transform.localPosition.z);
+            piernaRigth.transform.localPosition = tmpDerecha;
+        }
+        else
+        {
+            Vector3 tmpIzquierda = new Vector3(piernaLeft.transform.localPosition.x, 3f, piernaLeft.transform.localPosition.z);
+            piernaLeft.transform.localPosition = tmpIzquierda;
+
+            Vector3 tmpDerecha = new Vector3(piernaRigth.transform.localPosition.x, 3f, piernaRigth.transform.localPosition.z);
+            piernaRigth.transform.localPosition = tmpDerecha;
+        }
+
 
     }
 }
